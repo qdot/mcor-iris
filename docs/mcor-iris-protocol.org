@@ -3,6 +3,91 @@
 This document describes the communication protocol between the Mcor
 SliceIT software and the Mcor IRIS printer. With this, developers
 should be able to create their own software to talk to and control the
-Mcor printer, as well as dissect print sessions.
+Mcor printer, as well as dissect and analyze print sessions.
 ** Communication
-** Protocol 
+All communication between the software and the printer happens via
+telnet, over the default telnet port 23.
+** Protocol
+The communications protocol works in a request/receive fashion, using
+specially formatted ASCII strings.
+
+The host will send a string that ends with the \r\n (0x0d 0x0a). After
+this, the printer will send back data, ending with a ":" (0x3c)
+character. Whether this data contains any information other than the
+":" character depends on the query.
+
+*** Parameter Requests
+Most communication between the host and the printer is the host
+requests status from the printer. This happens in the form of a string
+that ends with a "=", e.g. "mach_id=" (plus the usual "\r\n" ending)
+requests the machine version of the printer. The printer will then
+respond with data, e.g. " 47.0000\r\n:", which means the printer has a
+machine ID of 47.
+*** Parameter Assignments
+The host can also assign parameters on the printer, using a similar
+format. For instance, to set the number of expected pages in the
+upcoming print, the host will send something like "numpage=156". The
+response from the printer will simply be a ":" character.
+*** Print
+
+** Parameter/Command Descriptions
+*** Parameter Table
+| Parameter Name | Settable? | Description       |
+|----------------+-----------+-------------------|
+| mach_id        |           | ID of the machine |
+| er             |           |                   |
+| me             |           |                   |
+| countrev       |           |                   |
+| blash          |           |                   |
+| abskncx        |           |                   |
+| abskncy        |           |                   |
+| xposlim        |           |                   |
+| xneglim        |           |                   |
+| yposlim        |           |                   |
+| yneglim        |           |                   |
+| ptype          |           |                   |
+| ms             |           |                   |
+| galilver       |           |                   |
+| compat         | Y         |                   |
+| lig            | Y         |                   |
+| lis            |           |                   |
+| pcstate        |           |                   |
+| cp             | Y         |                   |
+| chkn           |           |                   |
+| colour         | Y         |                   |
+| duplex         | Y         |                   |
+| numpage        | Y         |                   |
+| pfstate        |           |                   |
+| readfid        |           |                   |
+| lk             |           |                   |
+| lg             | Y         |                   |
+| cp             |           |                   |
+| lp             |           |                   |
+| ld             | Y         |                   |
+| numdata        | Y         |                   |
+| DMlocdata      | Y         |                   |
+| DMdata         | Y         |                   |
+| locdata        | Y         |                   |
+| zbadjust       | Y         |                   |
+| xloc_st        | Y         |                   |
+| yloc_st        | Y         |                   |
+| num_mot        | Y         |                   |
+| cf             | Y         |                   |
+| bf             | Y         |                   |
+| af             | Y         |                   |
+*** QD Commands
+**** Format
+:QD xa[],0,19220000,220000,220000,220000,220000,550000,220000,220000,220000,220000,220000,550000,220000,550000,220000,550000,220000,550000,220000,550000\
+**** Command Table
+| Name | Description |
+|------+-------------|
+| xc   |             |
+| yc   |             |
+| gc   |             |
+| xsc  |             |
+| ysc  |             |
+| gsc  |             |
+| xpc  |             |
+| ypc  |             |
+| gpc  |             |
+| sc   |             |
