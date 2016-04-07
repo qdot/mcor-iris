@@ -1,0 +1,8 @@
+* Mcor Iris Protocol Documentation
+** Intro
+This document describes the communication protocol between the Mcor
+SliceIT software and the Mcor IRIS printer. With this, developers
+should be able to create their own software to talk to and control the
+Mcor printer, as well as dissect print sessions.
+** Communication
+** Protocol 
